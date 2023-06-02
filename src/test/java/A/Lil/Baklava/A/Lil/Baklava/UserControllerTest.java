@@ -8,10 +8,15 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import static org.mockito.Mockito.when;
 
@@ -28,6 +33,7 @@ public class UserControllerTest {
         MockitoAnnotations.openMocks(this);
         userController = new UserController(userService);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        userService = new UserService();
     }
 
     @Test
@@ -43,4 +49,24 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("John"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("john@example.com"));
     }
+
+    @Test
+    public void testCreateUser() {
+        // Arrange
+        User user = new User();
+        user.setName("John Doe");
+        user.setEmail("john@example.com");
+        user.setPassword("password");
+
+        // Act
+        User createdUser = userService.createUser(user);
+
+        // Assert
+        assertNotNull(createdUser);
+        assertNotNull(createdUser.getUserId());
+        assertEquals(user.getName(), createdUser.getName());
+        assertEquals(user.getEmail(), createdUser.getEmail());
+        assertEquals(user.getPassword(), createdUser.getPassword());
+    }
+
 }

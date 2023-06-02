@@ -2,7 +2,9 @@ package A.Lil.Baklava.A.Lil.Baklava.service;
 
 import A.Lil.Baklava.A.Lil.Baklava.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserService {
@@ -14,6 +16,38 @@ public class UserService {
 
     public User getUserById(int userId) {
         return users.get(userId);
+    }
+
+    public User createUser(User user) {
+        int userId = generateUserId();
+        user.setUserId(userId);
+        users.put(userId, user);
+        return user;
+    }
+
+//    public List<User> getAllUsers() {
+//        return new ArrayList<>(users.values());
+//    }
+//
+//    public User updateUser(int userId, User updatedUser) {
+//        if (users.containsKey(userId)) {
+//            updatedUser.setUserId(userId);
+//            users.put(userId, updatedUser);
+//            return updatedUser;
+//        }
+//        return null;
+//    }
+//
+//    public boolean deleteUser(int userId) {
+//        return users.remove(userId) != null;
+//    }
+
+    // Helper method to generate a unique user ID
+    private int generateUserId() {
+        // Logic to generate a unique ID, such as using a counter or UUID
+        // For simplicity, let's assume a counter-based approach
+        int maxId = users.keySet().stream().max(Integer::compareTo).orElse(0);
+        return maxId + 1;
     }
 
 }
