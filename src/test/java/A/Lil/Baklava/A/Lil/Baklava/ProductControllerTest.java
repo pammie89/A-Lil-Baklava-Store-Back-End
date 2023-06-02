@@ -58,4 +58,21 @@ public class ProductControllerTest {
         verify(productService, times(1)).getAllProducts();
         verifyNoMoreInteractions(productService);
     }
+
+    @Test
+    void getProductById_ExistingProductId_ShouldReturnProduct() throws Exception {
+        Product product = new Product(1, "Product 1", 10.99);
+
+        when(productService.getProductById(1)).thenReturn(product);
+
+        mockMvc.perform(get("/products/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.productId").value(1))
+                .andExpect(jsonPath("$.name").value("Product 1"))
+                .andExpect(jsonPath("$.price").value(10.99));
+
+        verify(productService, times(1)).getProductById(1);
+        verifyNoMoreInteractions(productService);
+    }
 }
