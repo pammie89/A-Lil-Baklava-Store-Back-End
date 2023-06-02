@@ -1,5 +1,8 @@
 package A.Lil.Baklava.A.Lil.Baklava;
 
+import A.Lil.Baklava.A.Lil.Baklava.controller.UserController;
+import A.Lil.Baklava.A.Lil.Baklava.model.User;
+import A.Lil.Baklava.A.Lil.Baklava.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
