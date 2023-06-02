@@ -83,7 +83,7 @@ public class ProductControllerTest {
         when(productService.addProduct(any(Product.class))).thenReturn(product);
 
         mockMvc.perform(post("/products")
-                .contentType(MediaType.APPLICATION_JSON
+                .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"productId\": 1, \"name\": \"Product 1\", \"price\": 10.99}"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
