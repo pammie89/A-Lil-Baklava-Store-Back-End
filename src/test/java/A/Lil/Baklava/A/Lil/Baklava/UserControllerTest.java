@@ -53,7 +53,8 @@ public class UserControllerTest {
     @Test
     public void testCreateUser() {
         // Arrange
-        User user = new User();
+        int userId = 1;
+        User user = new User(userId, "John", "john@example.com", "password");
         user.setName("John Doe");
         user.setEmail("john@example.com");
         user.setPassword("password");
