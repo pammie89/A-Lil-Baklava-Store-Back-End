@@ -1,12 +1,14 @@
 package A.Lil.Baklava.A.Lil.Baklava.service;
 
 import A.Lil.Baklava.A.Lil.Baklava.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class UserService {
     private final Map<Integer, User> users;
 
@@ -25,22 +27,10 @@ public class UserService {
         return user;
     }
 
-//    public List<User> getAllUsers() {
-//        return new ArrayList<>(users.values());
-//    }
-//
-//    public User updateUser(int userId, User updatedUser) {
-//        if (users.containsKey(userId)) {
-//            updatedUser.setUserId(userId);
-//            users.put(userId, updatedUser);
-//            return updatedUser;
-//        }
-//        return null;
-//    }
-//
-//    public boolean deleteUser(int userId) {
-//        return users.remove(userId) != null;
-//    }
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users.values());
+    }
+
 
     // Helper method to generate a unique user ID
     private int generateUserId() {

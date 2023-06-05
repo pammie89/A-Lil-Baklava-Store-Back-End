@@ -1,14 +1,38 @@
 package A.Lil.Baklava.A.Lil.Baklava.model;
 
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderId;
+    @Column
     private int userId;
+
+    @Column
     private int productId;
+
+    @Column
     private int quantity;
+
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products = new ArrayList<>();
 
     public Order() {
     }
-
+//QUESTION HERE - DO I NEED TO CREATE ALL THE ORDERID, USERID ETC AS CONSTRUCTORS HERE ARE JUST QUANTITY?
     public Order(int orderId, int userId, int productId, int quantity) {
         this.orderId = orderId;
         this.userId = userId;
@@ -46,5 +70,9 @@ public class Order {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getId() {
+        return orderId;
     }
 }
