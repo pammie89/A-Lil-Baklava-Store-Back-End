@@ -41,6 +41,10 @@ public class OrderService {
         return null;
     }
 
+    public void deleteOrder(int orderId) {
+        orders.removeIf(order -> order.getOrderId() == orderId);
+    }
+
 
 
 }
