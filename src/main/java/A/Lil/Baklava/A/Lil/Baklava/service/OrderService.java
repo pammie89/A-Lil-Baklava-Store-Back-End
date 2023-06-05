@@ -29,5 +29,18 @@ public class OrderService {
         return order;
     }
 
+    public Order updateOrder(int orderId, Order updatedOrder) {
+        for (Order order : orders) {
+            if (order.getOrderId() == orderId) {
+                order.setUserId(updatedOrder.getUserId());
+                order.setProductId(updatedOrder.getProductId());
+                order.setQuantity(updatedOrder.getQuantity());
+                return order;
+            }
+        }
+        return null;
+    }
+
+
 
 }
