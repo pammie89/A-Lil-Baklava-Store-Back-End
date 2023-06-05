@@ -82,5 +82,23 @@ public class OrderControllerTest {
     }
 
 
+    @Test
+    public void testUpdateOrder() throws Exception {
+        Order order = new Order(1, 1, 1, 5);
+        Order updatedOrder = new Order(1, 1, 1, 10);
+
+        when(orderService.updateOrder(1, any(Order.class))).thenReturn(updatedOrder);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/orders/{orderId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"orderId\": 1, \"userId\": 1, \"productId\": 1, \"quantity\": 10}"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(10));
+    }
+
+
 
 }
