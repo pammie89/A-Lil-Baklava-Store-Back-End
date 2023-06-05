@@ -1,21 +1,35 @@
 package A.Lil.Baklava.A.Lil.Baklava.model;
 
 
+import javax.persistence.*;
+
+@Entity
+@Table(name="users")
 public class User {
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
+    @Column
     private String name;
+    @Column(unique = true)
     private String email;
+    @Column
     private String password;
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Order> orders;
 
     public User() {
     }
 
-    public User(int userId, String name, String email, String password) {
-        this.userId = userId;
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
+
     }
+
 
     public int getUserId() {
         return userId;
@@ -48,7 +62,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 
 }

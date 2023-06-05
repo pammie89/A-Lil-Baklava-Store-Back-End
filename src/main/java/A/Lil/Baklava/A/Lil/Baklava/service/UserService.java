@@ -1,12 +1,14 @@
 package A.Lil.Baklava.A.Lil.Baklava.service;
 
 import A.Lil.Baklava.A.Lil.Baklava.model.User;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class UserService {
     private final Map<Integer, User> users;
 

@@ -1,6 +1,5 @@
 package A.Lil.Baklava.A.Lil.Baklava.service;
 
-import A.Lil.Baklava.A.Lil.Baklava.exception.InformationNotFoundException;
 import A.Lil.Baklava.A.Lil.Baklava.model.Product;
 import A.Lil.Baklava.A.Lil.Baklava.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -28,22 +27,10 @@ public class ProductService {
         return productRepository.addProduct(product);
     }
 
-    public Product updateProduct(int productId, Product updatedProduct) {
-        Product existingProduct = productRepository.getProductById(productId);
-        if (existingProduct == null) {
-            throw new InformationNotFoundException("Product not found with ID: " + productId);
-        }
-
-        // Update the fields of the existing product with the new values
-        existingProduct.setName(updatedProduct.getName());
-        existingProduct.setPrice(updatedProduct.getPrice());
-        // ...
-
-        // Save the updated product in the repository
-        Product savedProduct = productRepository.updateProduct(productId, existingProduct);
-
-        return savedProduct;
+    public Product updateProduct(int id, Product updatedProduct) {
+        return productRepository.updateProduct(id, updatedProduct);
     }
+
     public void deleteProduct(int id) {
         productRepository.deleteProduct(id);
     }
