@@ -9,12 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path= "/products")
+@RequestMapping("/products")
 public class ProductController {
-
-    private final ProductService productService;
-
     @Autowired
+    private ProductService productService;
+
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -35,8 +34,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
-        return productService.updateProduct(id, product);
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") int productId, @RequestBody Product updatedProduct) {
+        Product product = productService.updateProduct(productId, updatedProduct);
+        return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/{id}")
@@ -44,6 +44,4 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }
