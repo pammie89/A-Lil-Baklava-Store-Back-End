@@ -45,22 +45,6 @@ public class ProductService {
         return product;
     }
 
-//    public void deleteProduct(int id) {
-//        products.remove(id);
-//    }
-
-//    public void deleteProduct(int id) {
-//
-//        products.remove(id);
-//        // Optionally, you can explicitly set the response status as 204 No Content
-//        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-//        if (response != null) {
-//            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-//        } else {
-//            // Log or handle the case when response is null
-//
-//        }
-//    }
 
     public void deleteProduct(int id) {
         Product removedProduct = products.remove(id);
