@@ -63,5 +63,23 @@ public class OrderControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(5));
     }
 
+    @Test
+    public void testCreateOrder() throws Exception {
+        Order order = new Order(1, 1, 1, 5);
+        Order createdOrder = new Order(1, 1, 1, 5);
+
+        when(orderService.createOrder(any(Order.class))).thenReturn(createdOrder);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"orderId\": 1, \"userId\": 1, \"productId\": 1, \"quantity\": 5}"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(5));
+    }
+
+
 
 }

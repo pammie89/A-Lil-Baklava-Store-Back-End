@@ -28,6 +28,12 @@ public class OrderController {
         return orderService.getOrderById(orderId);
     }
 
+    @PostMapping
+    public Order createOrder(@RequestBody Order order) {
+        return orderService.createOrder(order);
+    }
+
+
 
 
 }
