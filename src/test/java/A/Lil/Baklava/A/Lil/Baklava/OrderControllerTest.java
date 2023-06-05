@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -83,22 +84,23 @@ public class OrderControllerTest {
     }
 
 
-//    @Test
-//    public void testUpdateOrder() throws Exception {
-//        Order order = new Order(1, 1, 1, 5);
-//        Order updatedOrder = new Order(1, 1, 1, 10);
-//
-//        when(orderService.updateOrder(1, any(Order.class))).thenReturn(updatedOrder);
-//
-//        mockMvc.perform(MockMvcRequestBuilders.put("/orders/{orderId}", 1)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content("{\"orderId\": 1, \"userId\": 1, \"productId\": 1, \"quantity\": 10}"))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(1))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(1))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(10));
-//    }
+    @Test
+    public void testUpdateOrder() throws Exception {
+        Order order = new Order(1, 1, 1, 5);
+        Order updatedOrder = new Order(1, 1, 1, 10);
+
+        when(orderService.updateOrder(eq(1), any(Order.class))).thenReturn(updatedOrder);
+
+        mockMvc.perform(MockMvcRequestBuilders.put("/orders/{orderId}", 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"orderId\": 1, \"userId\": 1, \"productId\": 1, \"quantity\": 10}"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(10));
+    }
+
 
     @Test
     public void testDeleteOrder() throws Exception {
