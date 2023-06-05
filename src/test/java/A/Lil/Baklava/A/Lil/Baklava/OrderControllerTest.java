@@ -1,0 +1,52 @@
+package A.Lil.Baklava.A.Lil.Baklava;
+
+import A.Lil.Baklava.A.Lil.Baklava.controller.OrderController;
+import A.Lil.Baklava.A.Lil.Baklava.model.Order;
+import A.Lil.Baklava.A.Lil.Baklava.service.OrderService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+
+@WebMvcTest(OrderController.class)
+public class OrderControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private OrderService orderService;
+
+    @Test
+    public void testGetAllOrders() throws Exception {
+        Order order1 = new Order(1, 1, 1, 5);
+        Order order2 = new Order(2, 2, 2, 3);
+        List<Order> orders = Arrays.asList(order1, order2);
+
+        when(orderService.getAllOrders()).thenReturn(orders);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].productId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].quantity").value(5))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].userId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].productId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].quantity").value(3));
+    }
+
+
+}

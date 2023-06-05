@@ -1,13 +1,14 @@
 package A.Lil.Baklava.A.Lil.Baklava.model;
 
+
 public class User {
     private int userId;
     private String name;
     private String email;
     private String password;
 
-//    public User() {
-//    }
+    public User() {
+    }
 
     public User(int userId, String name, String email, String password) {
         this.userId = userId;
@@ -47,5 +48,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 
 }
