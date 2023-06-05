@@ -24,5 +24,10 @@ public class OrderService {
         return null;
     }
 
+    public Order createOrder(Order order) {
+        orders.add(order);
+        return order;
+    }
+
 
 }
