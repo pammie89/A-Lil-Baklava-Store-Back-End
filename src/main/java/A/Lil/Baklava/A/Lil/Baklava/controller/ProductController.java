@@ -1,17 +1,17 @@
 package A.Lil.Baklava.A.Lil.Baklava.controller;
 
-import A.Lil.Baklava.A.Lil.Baklava.model.Product;
-import A.Lil.Baklava.A.Lil.Baklava.service.ProductService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+        import A.Lil.Baklava.A.Lil.Baklava.model.Product;
+        import A.Lil.Baklava.A.Lil.Baklava.service.ProductService;
+        import org.springframework.http.ResponseEntity;
+        import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+        import java.util.List;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
-   ProductService productService;
+    ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
@@ -44,4 +44,6 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
