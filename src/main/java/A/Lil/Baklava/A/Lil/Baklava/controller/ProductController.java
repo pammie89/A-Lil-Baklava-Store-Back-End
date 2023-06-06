@@ -2,7 +2,6 @@ package A.Lil.Baklava.A.Lil.Baklava.controller;
 
 import A.Lil.Baklava.A.Lil.Baklava.model.Product;
 import A.Lil.Baklava.A.Lil.Baklava.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,8 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+
+   ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;

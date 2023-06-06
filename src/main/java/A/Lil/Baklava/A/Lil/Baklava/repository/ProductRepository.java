@@ -1,19 +1,19 @@
 package A.Lil.Baklava.A.Lil.Baklava.repository;
 
 import A.Lil.Baklava.A.Lil.Baklava.model.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Integer> {
 
-public interface ProductRepository {
-    List<Product> getAllProducts();
+    List<Product> findAll();
 
-    Product getProductById(int id);
+    Product save(Product product);
 
-    Product addProduct(Product product);
+    void deleteById(int id);
 
-    Product updateProduct(int id, Product updatedProduct);
-
-    void deleteProduct(int id);
 }
 

@@ -7,19 +7,27 @@ import java.util.List;
 @Entity
 @Table(name="products")
 public class Product {
+
+    private String name;
+    private double price;
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column
-    private String name;
-
-    @Column
-    private double price;
+//    @Column
+//    private String name;
+//
+//    @Column
+//    private double price;
 
     @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
 
+
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
     public Product() {
     }
 
@@ -28,6 +36,7 @@ public class Product {
         this.name = name;
         this.price = price;
     }
+
 
     public int getId() {
         return id;
