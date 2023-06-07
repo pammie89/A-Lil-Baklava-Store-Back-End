@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
-    @Column
+    @Column(name = "order_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int orderId;
     @Column
@@ -32,7 +32,7 @@ public class Order {
 
     public Order() {
     }
-//QUESTION HERE - DO I NEED TO CREATE ALL THE ORDERID, USERID ETC AS CONSTRUCTORS HERE ARE JUST QUANTITY?
+
     public Order(int orderId, int userId, int productId, int quantity) {
         this.orderId = orderId;
         this.userId = userId;
