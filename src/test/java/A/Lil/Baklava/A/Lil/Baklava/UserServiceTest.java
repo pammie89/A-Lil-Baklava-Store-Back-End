@@ -44,7 +44,7 @@ public class UserServiceTest {
     @Test
     public void testGetUserById() throws Exception {
         int userId = 1;
-        User user = new User(userId, "John Doe", "john@example.com", "password");
+        User user = new User("John Doe", "john@example.com", "password");
 
         when(userService.getUserById(userId)).thenReturn(user);
 
@@ -62,7 +62,7 @@ public class UserServiceTest {
 
     @Test
     public void testCreateUser() throws Exception {
-        User user = new User(1, "John Doe", "john@example.com", "password");
+        User user = new User( "John Doe", "john@example.com", "password");
         String userJson = objectMapper.writeValueAsString(user);
 
         when(userService.createUser(any(User.class))).thenReturn(user);
@@ -83,8 +83,8 @@ public class UserServiceTest {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        User user1 = new User(1, "John Doe", "john@example.com", "password");
-        User user2 = new User(2, "Jane Smith", "jane@example.com", "password");
+        User user1 = new User( "John Doe", "john@example.com", "password");
+        User user2 = new User("Jane Smith", "jane@example.com", "password");
         List<User> users = Arrays.asList(user1, user2);
 
         when(userService.getAllUsers()).thenReturn(users);

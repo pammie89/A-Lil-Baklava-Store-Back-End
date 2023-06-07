@@ -33,8 +33,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(int orderId, int userId, int productId, int quantity) {
-        this.orderId = orderId;
+    public Order(int userId, int productId, int quantity) {
+
         this.userId = userId;
         this.productId = productId;
         this.quantity = quantity;
@@ -72,7 +72,5 @@ public class Order {
         this.quantity = quantity;
     }
 
-    public int getId() {
-        return orderId;
-    }
+
 }
