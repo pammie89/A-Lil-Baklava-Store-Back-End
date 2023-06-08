@@ -50,6 +50,20 @@ building both the backend using Java/Springboot and the frontend using Angular.
 - As an admin, I should be able to get all orders<br>
 - As an admin, I should be able to delete orders<br>
 
+***
+
 ## ERD Diagram
 
 ![A Lil Baklava ERD Diagram](./images/ERD.jpeg)<br><br>
+
+***
+## MVP ( - ✓ - Completed / - ✗ - Not Completed)
+
+1. Contain at least 2 models - ✓
+2. The environment settings should use Spring Profiles - ✓
+3. API endpoints should perform CRUD tasks - ✗
+4. Should provide CRUD routes - ✓
+5. Handle exceptions gracefully - ✓
+6. Should be developed using the TDD approach - ✓
+7. Test the controller with MOCK MVC - ✓
+8. Use Doc Strings - ✗
