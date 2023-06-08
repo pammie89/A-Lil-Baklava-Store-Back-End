@@ -31,8 +31,8 @@ public class OrderControllerTest {
 
     @Test
     public void testGetAllOrders() throws Exception {
-        Order order1 = new Order(1, 1, 1, 5);
-        Order order2 = new Order(2, 2, 2, 3);
+        Order order1 = new Order( 1, 1, 5);
+        Order order2 = new Order( 2, 2, 3);
         List<Order> orders = Arrays.asList(order1, order2);
 
         when(orderService.getAllOrders()).thenReturn(orders);
@@ -53,7 +53,7 @@ public class OrderControllerTest {
 
     @Test
     public void testGetOrderById() throws Exception {
-        Order order = new Order(1, 1, 1, 5);
+        Order order = new Order( 1, 1, 5);
 
         when(orderService.getOrderById(1)).thenReturn(order);
 
@@ -68,8 +68,8 @@ public class OrderControllerTest {
 
     @Test
     public void testCreateOrder() throws Exception {
-        Order order = new Order(1, 1, 1, 5);
-        Order createdOrder = new Order(1, 1, 1, 5);
+        Order order = new Order( 1, 1, 5);
+        Order createdOrder = new Order( 1, 1, 5);
 
         when(orderService.createOrder(any(Order.class))).thenReturn(createdOrder);
 
@@ -86,8 +86,8 @@ public class OrderControllerTest {
 
     @Test
     public void testUpdateOrder() throws Exception {
-        Order order = new Order(1, 1, 1, 5);
-        Order updatedOrder = new Order(1, 1, 1, 10);
+        Order order = new Order( 1, 1, 5);
+        Order updatedOrder = new Order( 1, 1, 10);
 
         when(orderService.updateOrder(eq(1), any(Order.class))).thenReturn(updatedOrder);
 

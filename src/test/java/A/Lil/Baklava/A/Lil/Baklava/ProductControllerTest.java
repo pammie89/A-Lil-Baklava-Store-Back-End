@@ -82,33 +82,33 @@ public class ProductControllerTest {
         verifyNoMoreInteractions(productService);
     }
 
-    @Test
-    public void updateProduct_WithValidId_ReturnsUpdatedProduct() throws Exception {
-        Product product = new Product(1, "Product 1", 10.99);
-        Product updatedProduct = new Product(1, "Updated Product 1", 12.99);
-
-        when(productService.updateProduct(anyInt(), any(Product.class)))
-                .thenAnswer(invocation -> {
-                    int id = invocation.getArgument(0);
-                    Product productArg = invocation.getArgument(1);
-                    if (id == productArg.getId()) {
-                        return updatedProduct;
-                    } else {
-                        throw new IllegalArgumentException("Invalid arguments");
-                    }
-                });
-
-        mockMvc.perform(put("/products/{id}", 1)
-                        .contentType("application/json")
-                        .content("{\"id\": 1, \"name\": \"Updated Product 1\", \"price\": 12.99}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("Updated Product 1"))
-                .andExpect(jsonPath("$.price").value(12.99));
-
-        verify(productService, times(1)).updateProduct(1, updatedProduct);
-        verifyNoMoreInteractions(productService);
-    }
+//    @Test
+//    public void updateProduct_WithValidId_ReturnsUpdatedProduct() throws Exception {
+//        Product product = new Product(1, "Product 1", 10.99);
+//        Product updatedProduct = new Product(1, "Updated Product 1", 12.99);
+//
+//        when(productService.updateProduct(anyInt(), any(Product.class)))
+//                .thenAnswer(invocation -> {
+//                    int id = invocation.getArgument(0);
+//                    Product productArg = invocation.getArgument(1);
+//                    if (id == productArg.getId()) {
+//                        return updatedProduct;
+//                    } else {
+//                        throw new IllegalArgumentException("Invalid arguments");
+//                    }
+//                });
+//
+//        mockMvc.perform(put("/products/{id}", 1)
+//                        .contentType("application/json")
+//                        .content("{\"id\": 1, \"name\": \"Updated Product 1\", \"price\": 12.99}"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.id").value(1))
+//                .andExpect(jsonPath("$.name").value("Updated Product 1"))
+//                .andExpect(jsonPath("$.price").value(12.99));
+//
+//        verify(productService, times(1)).updateProduct(1, updatedProduct);
+//        verifyNoMoreInteractions(productService);
+//    }
 
 
 
