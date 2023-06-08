@@ -176,6 +176,29 @@ Maven and then Reload project. This will install the dependencies.
 
 ***
 
+## Wins & Hurdles
+
+#### <ins>Wins</ins>
+
+Throughout this project I felt I was already at a win status when I typed my first command ng new my-apps-name.  
+As just 3 months ago I never coded a line of Java, and had no experience with Angular, and yet today 
+I am developing a real world app that will be used for my daughters Baklava business.  That to me is a 
+huge win!
+
+#### <ins>Hurdles</ins>
+
+I did have some quiet a few hurdles throughout this project.  With a ton of searching and help by 
+colleagues and instructors I was able to work through them.
+
+- My order model had issues with the relationship. It was preventing me from testing in postman as postman would not see the seed data.
+
+- The other one was with the testing my product model. I had implemented mockMVC to test my service layer, which is why my tests kept failing.
+
+
+  <br>
+
+***
+
 ## Technologies & Tools
 
 - Java
