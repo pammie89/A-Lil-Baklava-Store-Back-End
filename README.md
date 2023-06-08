@@ -175,3 +175,14 @@ Maven and then Reload project. This will install the dependencies.
 ```
 
 ***
+
+## Technologies & Tools
+
+- Java
+- Spring Boot
+- Postman
+- GitHub Project
+- LucidChart
+- H2 Database
+- JUnit
+- Mockito
