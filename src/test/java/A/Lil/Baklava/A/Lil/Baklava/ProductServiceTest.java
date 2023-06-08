@@ -19,6 +19,8 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -44,8 +46,8 @@ public class ProductServiceTest {
     public void testGetAllProducts() {
         // Arrange
         List<Product> expectedProducts = new ArrayList<>();
-        expectedProducts.add(new Product(1, "Product 1", 10.99));
-        expectedProducts.add(new Product(2, "Product 2", 15.99));
+        expectedProducts.add(new Product(1L, "Product 1", 10.99));
+        expectedProducts.add(new Product(2L, "Product 2", 15.99));
         when(productRepository.findAll()).thenReturn(expectedProducts);
 
         // Act
@@ -70,7 +72,7 @@ public class ProductServiceTest {
     @Test
     public void testGetProductById() {
         // Arrange
-        int productId = 1;
+        Long productId = 1L;
         Product expectedProduct = new Product(productId, "Test Product", 10.99);
         when(productRepository.findById(productId)).thenReturn(Optional.of(expectedProduct));
 
@@ -110,15 +112,15 @@ public class ProductServiceTest {
     @Test
     public void testDeleteProduct() {
         // Arrange
-        int productId = 1;
+        Long productId = 1L;
         Product product = new Product("Product to delete", 9.99);
-//        when(productRepository.findById(productId)).thenReturn(java.util.Optional.of(product));
+        when(productRepository.findById(anyLong())).thenReturn(java.util.Optional.of(product));
 
         // Act
         productService.deleteProduct(productId);
 
         // Assert
-        verify(productRepository).deleteProductById(productId);
+        verify(productRepository).delete(any(Product.class));
     }
 
 

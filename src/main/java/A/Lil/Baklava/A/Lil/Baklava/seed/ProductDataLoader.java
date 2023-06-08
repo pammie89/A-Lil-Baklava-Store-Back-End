@@ -14,7 +14,7 @@ public class ProductDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //loadProductData();
+        loadProductData();
     }
 
     private void loadProductData() {

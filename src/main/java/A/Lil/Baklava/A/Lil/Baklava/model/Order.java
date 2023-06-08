@@ -31,6 +31,13 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
+    public Order() {}
+    public Order(Long id, int productId, int quantity) {
+        this.id = id;
+        this.productId = productId;
+        this.quantity = quantity;
+    }
+
     public Long getId() {
         return id;
     }
