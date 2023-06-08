@@ -15,35 +15,35 @@ public class OrderService {
         return orders;
     }
 
-//    public Order getOrderById(int orderId) {
-//        for (Order order : orders) {
-//            if (order.getOrderId() == orderId) {
-//                return order;
-//            }
-//        }
-//        return null;
-//    }
+    public Order getOrderById(int orderId) {
+        for (Order order : orders) {
+            if (order.getId() == orderId) {
+                return order;
+            }
+        }
+        return null;
+    }
 
     public Order createOrder(Order order) {
         orders.add(order);
         return order;
     }
 
-//    public Order updateOrder(int orderId, Order updatedOrder) {
-//        for (Order order : orders) {
-//            if (order.getOrderId() == orderId) {
-//                order.setUserId(updatedOrder.getUserId());
-//                order.setProductId(updatedOrder.getProductId());
-//                order.setQuantity(updatedOrder.getQuantity());
-//                return order;
-//            }
-//        }
-//        return null;
-//    }
+    public Order updateOrder(int orderId, Order updatedOrder) {
+        for (Order order : orders) {
+            if (order.getId() == orderId) {
+                order.setUserId(updatedOrder.getUserId());
+                order.setProductId(updatedOrder.getProductId());
+                order.setQuantity(updatedOrder.getQuantity());
+                return order;
+            }
+        }
+        return null;
+    }
 
-//    public void deleteOrder(int orderId) {
-//        orders.removeIf(order -> order.getOrderId() == orderId);
-//    }
+    public void deleteOrder(int orderId) {
+        orders.removeIf(order -> order.getId() == orderId);
+    }
 
 
 
