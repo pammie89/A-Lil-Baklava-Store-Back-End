@@ -7,7 +7,7 @@
 - [User Stories](#user-stories)
 - [ERD Diagram](#erd-diagram)
 - [MVP](#mvp-------completed-------not-completed)
-- [Favorite Parts](#favorite-parts)
+- [Installing Dependencies](#installing-dependencies)
 - [Wins & Hurdles](#wins--hurdles)
 - [Technologies & Tools](#technologies--tools)
 - [Credits](#credits)
@@ -67,3 +67,86 @@ building both the backend using Java/Springboot and the frontend using Angular.
 6. Should be developed using the TDD approach - ✓
 7. Test the controller with MOCK MVC - ✓
 8. Use Doc Strings - ✗
+
+
+## Installing Dependencies
+
+#### List of dependencies used
+
+- SpringBoot
+    - Starter REST
+    - Dev Tools
+    - JPA
+    - Plugin/Mavin
+- H2 Database
+- Junit
+
+
+#### How to install dependencies
+
+Copy and paste the code below into your pom.xml file. Once copied right mouse click on your pom.xml file and select
+Maven and then Reload project. This will install the dependencies.
+<br><br>
+
+```
+<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.11.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.8.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+```
+
+***
