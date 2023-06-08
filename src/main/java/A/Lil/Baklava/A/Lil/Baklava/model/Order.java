@@ -1,6 +1,8 @@
 package A.Lil.Baklava.A.Lil.Baklava.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -18,6 +20,16 @@ public class Order {
 
     @Column
     private int userId;
+
+
+
+    @ManyToMany
+    @JoinTable(
+            name = "order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> products = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -50,14 +62,4 @@ public class Order {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-
-//    @ManyToMany
-//    @JoinTable(
-//            name = "order_product",
-//            joinColumns = @JoinColumn(name = "order_id"),
-//            inverseJoinColumns = @JoinColumn(name = "product_id")
-//    )
-//    private List<Product> products = new ArrayList<>();
-
 }

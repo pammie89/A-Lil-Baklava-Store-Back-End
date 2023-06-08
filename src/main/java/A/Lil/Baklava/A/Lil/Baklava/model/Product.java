@@ -1,6 +1,8 @@
 package A.Lil.Baklava.A.Lil.Baklava.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="product")
@@ -18,8 +20,8 @@ public class Product {
 //    @Column
 //    private double price;
 
-//    @ManyToMany(mappedBy = "products")
-//    private List<Order> orders = new ArrayList<>();
+    @ManyToMany(mappedBy = "products")
+    private List<Order> orders = new ArrayList<>();
 
 
     public Product(String name, double price) {
