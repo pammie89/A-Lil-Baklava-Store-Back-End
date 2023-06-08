@@ -46,8 +46,8 @@ public class ProductService {
         }
         return null; // Or handle the case where the product does not exist
     }
-//
-//    public void deleteProduct(int id) {
-//        productRepository.deleteProductById(id);
-//    }
+
+    public void deleteProduct(int id) {
+        productRepository.deleteProductById(id);
+    }
 }

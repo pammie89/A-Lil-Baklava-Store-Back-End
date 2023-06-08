@@ -1,11 +1,9 @@
 package A.Lil.Baklava.A.Lil.Baklava.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name="products")
+@Table(name="product")
 public class Product {
 
     private String name;
@@ -13,15 +11,15 @@ public class Product {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 //    @Column
 //    private String name;
 //
 //    @Column
 //    private double price;
 
-    @ManyToMany(mappedBy = "products")
-    private List<Order> orders = new ArrayList<>();
+//    @ManyToMany(mappedBy = "products")
+//    private List<Order> orders = new ArrayList<>();
 
 
     public Product(String name, double price) {
@@ -31,18 +29,18 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, String name, double price) {
+    public Product(Long id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -62,13 +60,13 @@ public class Product {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", orders=" + orders +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Product{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", price=" + price +
+//                ", orders=" + orders +
+//                '}';
+//    }
 }

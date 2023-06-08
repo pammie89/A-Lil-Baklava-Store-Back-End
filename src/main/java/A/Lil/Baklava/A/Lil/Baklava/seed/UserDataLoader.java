@@ -18,7 +18,7 @@ public class UserDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        loadUserData();
+        //loadUserData();
     }
 
     private void loadUserData() {
