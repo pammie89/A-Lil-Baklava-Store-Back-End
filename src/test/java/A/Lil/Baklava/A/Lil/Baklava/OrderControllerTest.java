@@ -41,12 +41,12 @@ public class OrderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.size()").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].orderId").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].userId").value(0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].productId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].quantity").value(5))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].orderId").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].userId").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].userId").value(0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].productId").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].quantity").value(3));
     }
@@ -60,8 +60,8 @@ public class OrderControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/orders/{orderId}", 1)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(5));
     }
@@ -77,8 +77,8 @@ public class OrderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"orderId\": 1, \"userId\": 1, \"productId\": 1, \"quantity\": 5}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(5));
     }
@@ -95,8 +95,8 @@ public class OrderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"orderId\": 1, \"userId\": 1, \"productId\": 1, \"quantity\": 10}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.orderId").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(0))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.productId").value(1))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.quantity").value(10));
     }
