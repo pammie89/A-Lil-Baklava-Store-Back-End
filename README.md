@@ -5,6 +5,7 @@
 - [Project Overview](#project-overview)
 - [Project Planning](#project-planning)
 - [User Stories](#user-stories)
+- [ERD Diagram](#erd-diagram)
 - [MVP](#mvp-------completed-------not-completed)
 - [Favorite Parts](#favorite-parts)
 - [Wins & Hurdles](#wins--hurdles)
@@ -49,3 +50,4 @@ building both the backend using Java/Springboot and the frontend using Angular.
 - As an admin, I should be able to get all orders<br>
 - As an admin, I should be able to delete orders<br>
 
+## ERD Diagram
