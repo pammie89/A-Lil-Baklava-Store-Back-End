@@ -37,3 +37,15 @@ building both the backend using Java/Springboot and the frontend using Angular.
 [View Planning Kanban Board](https://github.com/users/pammie89/projects/1)
 
 ***
+
+## User Stories
+
+- As an admin, I should be able to add products<br>
+- As an admin, I should be able to edit products<br>
+- As an admin, I should be able to update products<br>
+- As an admin, I should be able to delete products<br>
+- As an admin, I should be able to view orders<br>
+- As an admin, I should be able to update orders<br>
+- As an admin, I should be able to get all orders<br>
+- As an admin, I should be able to delete orders<br>
+
