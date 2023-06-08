@@ -191,3 +191,8 @@ Maven and then Reload project. This will install the dependencies.
 ***
 
 ## Credits
+
+- I utilized [LucidChart](https://lucidchart.com/) for creating the ERD diagrams.
+
+- I want to express my heartfelt gratitude to [Suresh](https://github.com/sureshmelvinsigera), [Leo](https://github.com/LRodriguez92) and [Dhrubo](https://www.linkedin.com/in/dhrubo-hasan/).   Their teachings over the past three months made it possible for me to finish building a full stack app using Java/Springboot and Angular. I couldn't have done it without them!
+- I would also like to thank my colleague [Jeff Ou](https://www.linkedin.com/in/jiajin-ou-87330a1b1/), who was so kind to take the time to help me with an issue I had with my order model.  Thank you very much!
