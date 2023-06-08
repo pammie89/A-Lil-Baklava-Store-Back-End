@@ -30,8 +30,8 @@ public class ProductControllerTest {
 
     @Test
     public void getAllProducts_ReturnsListOfProducts() throws Exception {
-        Product product1 = new Product(1, "Product 1", 10.99);
-        Product product2 = new Product(2, "Product 2", 19.99);
+        Product product1 = new Product(1L, "Product 1", 10.99);
+        Product product2 = new Product(2L, "Product 2", 19.99);
         List<Product> products = Arrays.asList(product1, product2);
 
         when(productService.getAllProducts()).thenReturn(products);
@@ -50,9 +50,9 @@ public class ProductControllerTest {
     }
     @Test
     public void getProductById_WithValidId_ReturnsProduct() throws Exception {
-        Product product = new Product(1, "Product 1", 10.99);
+        Product product = new Product(1L, "Product 1", 10.99);
 
-        when(productService.getProductById(anyInt())).thenReturn(product);
+        when(productService.getProductById(anyLong())).thenReturn(product);
 
         mockMvc.perform(get("/products/{productId}", 1))
                 .andExpect(status().isOk())
@@ -60,13 +60,13 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.name").value("Product 1"))
                 .andExpect(jsonPath("$.price").value(10.99));
 
-        verify(productService, times(1)).getProductById(1);
+        verify(productService, times(1)).getProductById(1L);
         verifyNoMoreInteractions(productService);
     }
 
     @Test
     public void addProduct_WithValidProduct_ReturnsAddedProduct() throws Exception {
-        Product product = new Product(1, "Product 1", 10.99);
+        Product product = new Product(1L, "Product 1", 10.99);
 
         when(productService.addProduct(any(Product.class))).thenReturn(product);
 
@@ -118,7 +118,7 @@ public class ProductControllerTest {
                 .andExpect(status().isNoContent())
                 .andExpect(content().string(""));
 
-        verify(productService, times(1)).deleteProduct(1);
+        verify(productService, times(1)).deleteProduct(1L);
         verifyNoMoreInteractions(productService);
     }
 

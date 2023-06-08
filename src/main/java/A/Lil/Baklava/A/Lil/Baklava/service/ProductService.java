@@ -1,5 +1,6 @@
 package A.Lil.Baklava.A.Lil.Baklava.service;
 
+import A.Lil.Baklava.A.Lil.Baklava.exception.InformationNotFoundException;
 import A.Lil.Baklava.A.Lil.Baklava.model.Product;
 import A.Lil.Baklava.A.Lil.Baklava.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product getProductById(int id) {
+    public Product getProductById(Long id) {
         Optional<Product> productOptional = productRepository.findById(id);
         return productOptional.orElse(null); // Return the Product if it exists, or null if it doesn't
     }
@@ -33,7 +34,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(int id, Product updatedProduct) {
+    public Product updateProduct(Long id, Product updatedProduct) {
         // Get the existing product by ID
         Optional<Product> existingProductOptional = productRepository.findById(id);
         if (existingProductOptional.isPresent()) {
@@ -46,8 +47,9 @@ public class ProductService {
         }
         return null; // Or handle the case where the product does not exist
     }
-//
-//    public void deleteProduct(int id) {
-//        productRepository.deleteProductById(id);
-//    }
+
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new InformationNotFoundException("Product is not found with id " + id));
+        productRepository.delete(product);
+    }
 }

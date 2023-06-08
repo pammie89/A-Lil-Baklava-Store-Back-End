@@ -8,17 +8,18 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
-    @Column(name = "order_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
     @Column
-    private int userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column
     private int productId;
 
     @Column
     private int quantity;
+
+    @Column
+    private int userId;
 
 
 
@@ -30,22 +31,19 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
-    public Order() {
-    }
-
-    public Order(int userId, int productId, int quantity) {
-
-        this.userId = userId;
+    public Order() {}
+    public Order(Long id, int productId, int quantity) {
+        this.id = id;
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    public int getOrderId() {
-        return orderId;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public int getUserId() {
@@ -71,6 +69,4 @@ public class Order {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-
 }

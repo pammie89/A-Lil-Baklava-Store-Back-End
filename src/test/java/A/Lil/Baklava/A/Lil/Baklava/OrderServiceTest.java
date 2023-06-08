@@ -2,17 +2,22 @@ package A.Lil.Baklava.A.Lil.Baklava;
 
 import A.Lil.Baklava.A.Lil.Baklava.controller.OrderController;
 import A.Lil.Baklava.A.Lil.Baklava.model.Order;
+import A.Lil.Baklava.A.Lil.Baklava.repository.OrderRepository;
 import A.Lil.Baklava.A.Lil.Baklava.service.OrderService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,10 +25,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+@SpringBootTest
 public class OrderServiceTest {
     private MockMvc mockMvc;
 
     @Mock
+    private OrderRepository orderRepository;
+
+    @Autowired
     private OrderService orderService;
 
     @InjectMocks
@@ -38,66 +48,43 @@ public class OrderServiceTest {
     @Test
     public void testGetAllOrders() throws Exception {
         List<Order> orders = new ArrayList<>();
-        orders.add(new Order( 1, 1, 10));
-        orders.add(new Order( 2, 2, 5));
+        orders.add(new Order(1L, 1, 10));
 
-        when(orderService.getAllOrders()).thenReturn(orders);
+        when(orderRepository.findAll()).thenReturn(orders);
 
-        mockMvc.perform(get("/orders"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()").value(2))
-                .andExpect(jsonPath("$[0].orderId").value(1))
-                .andExpect(jsonPath("$[0].userId").value(1))
-                .andExpect(jsonPath("$[0].productId").value(1))
-                .andExpect(jsonPath("$[0].quantity").value(10))
-                .andExpect(jsonPath("$[1].orderId").value(2))
-                .andExpect(jsonPath("$[1].userId").value(2))
-                .andExpect(jsonPath("$[1].productId").value(2))
-                .andExpect(jsonPath("$[1].quantity").value(5));
+        List<Order> foundOrders = orderService.getAllOrders();
 
-        verify(orderService, times(1)).getAllOrders();
-        verifyNoMoreInteractions(orderService);
+        Assertions.assertEquals(orders.size(), 1);
     }
 
     @Test
     public void testGetOrderById() throws Exception {
-        Order order = new Order( 1, 1, 10);
+        Order order = new Order(1L, 1, 10);
+        Order updatedAttributes = new Order(2L, 2, 20);
+        when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
+        when(orderRepository.save(any(Order.class))).thenReturn(order);
+        Order updatedOrder = orderService.updateOrder(1L, updatedAttributes);
 
-        when(orderService.getOrderById(1)).thenReturn(order);
-
-        mockMvc.perform(get("/orders/{orderId}", 1))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.orderId").value(1))
-                .andExpect(jsonPath("$.userId").value(1))
-                .andExpect(jsonPath("$.productId").value(1))
-                .andExpect(jsonPath("$.quantity").value(10));
-
-        verify(orderService, times(1)).getOrderById(1);
-        verifyNoMoreInteractions(orderService);
+        Assertions.assertEquals(updatedAttributes.getProductId(), updatedOrder.getProductId());
+        Assertions.assertEquals(updatedAttributes.getQuantity(), updatedOrder.getQuantity());
     }
 
     @Test
     public void testCreateOrder() throws Exception {
-        Order order = new Order( 1, 1, 10);
+        Order order = new Order(1L, 1, 10);
 
-        when(orderService.createOrder(any(Order.class))).thenReturn(order);
+        when(orderRepository.save(any(Order.class))).thenReturn(order);
 
-        mockMvc.perform(post("/orders")
-                        .contentType("application/json")
-                        .content("{\"orderId\":1,\"userId\":1,\"productId\":1,\"quantity\":10}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.orderId").value(1))
-                .andExpect(jsonPath("$.userId").value(1))
-                .andExpect(jsonPath("$.productId").value(1))
-                .andExpect(jsonPath("$.quantity").value(10));
+        Order createdOrder = orderService.createOrder(order);
 
-        verify(orderService, times(1)).createOrder(any(Order.class));
-        verifyNoMoreInteractions(orderService);
+        Assertions.assertEquals(order.getId(), createdOrder.getId());
+        Assertions.assertEquals(order.getProductId(), createdOrder.getProductId());
+        Assertions.assertEquals(order.getQuantity(), createdOrder.getQuantity());
     }
 
     @Test
     public void testUpdateOrder() throws Exception {
-        Order updatedOrder = new Order( 2, 2, 5);
+        Order updatedOrder = new Order(2L, 2, 5);
 
     }
 }

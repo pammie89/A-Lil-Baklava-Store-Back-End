@@ -23,9 +23,9 @@ public class OrderDataLoader implements CommandLineRunner {
 
     private void loadOrderData() {
         if (orderRepository.count() == 0) {
-            Order order1 = new Order(1, 1, 5);
-            Order order2 = new Order(2, 2, 10);
-            Order order3 = new Order(1, 3, 1);
+            Order order1 = new Order(1L, 1, 5);
+            Order order2 = new Order(2L, 2, 10);
+            Order order3 = new Order(1L, 3, 1);
             orderRepository.save(order1);
             orderRepository.save(order2);
             orderRepository.save(order3);
