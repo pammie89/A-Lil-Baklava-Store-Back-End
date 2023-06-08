@@ -57,6 +57,31 @@ building both the backend using Java/Springboot and the frontend using Angular.
 ![A Lil Baklava ERD Diagram](./images/ERD.jpeg)<br><br>
 
 ***
+
+## Rest Endpoints
+
+#### <ins>Order Endpoints</ins>
+
+| Request Type | URL                | Functionality    | Access  |  
+|--------------|--------------------|------------------|---------|
+| GET          | /orders            | Get all orders   | Private |   
+| GET          | /orders/{orderId}/ | Get order by id  | Private |   
+| POST         | /orders            | Create New Order | Private |   
+| PUT          | /orders/{orderId}/ | Update an order  | Private |
+| DEL          | /orders/{orderId}/ | Delete an order  | Private |
+
+#### <ins>Product Endpoints</ins>
+
+| Request Type | URL                    | Functionality     | Access  |  
+|--------------|------------------------|-------------------|---------|
+| GET          | /products              | Get all products  | Private |   
+| GET          | /products/{productId}/ | Get product by id | Private |   
+| POST         | /products              | Add new product   | Private |   
+| PUT          | /products/{productId}/ | Update a product  | Private |
+| DEL          | /products/{productId}/ | Delete an product | Private |
+
+***
+
 ## MVP ( - ✓ - Completed / - ✗ - Not Completed)
 
 1. Contain at least 2 models - ✓
