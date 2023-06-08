@@ -51,3 +51,5 @@ building both the backend using Java/Springboot and the frontend using Angular.
 - As an admin, I should be able to delete orders<br>
 
 ## ERD Diagram
+
+![A Lil Baklava ERD Diagram](./images/ERD.jpeg)<br><br>
