@@ -1,110 +1,101 @@
-//package A.Lil.Baklava.A.Lil.Baklava;
-//
-//import A.Lil.Baklava.A.Lil.Baklava.controller.UserController;
-//import A.Lil.Baklava.A.Lil.Baklava.model.User;
-//import A.Lil.Baklava.A.Lil.Baklava.service.UserService;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//import org.springframework.http.MediaType;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-//import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-//
-//import java.util.Arrays;
-//import java.util.List;
-//
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.Mockito.*;
-//import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//
-//public class UserServiceTest {
-////
-////    private MockMvc mockMvc;
-////
-////    @Mock
-////    private UserService userService;
-////
-////    @InjectMocks
-////    private UserController userController;
-////
-////    private ObjectMapper objectMapper;
-////
-////    @BeforeEach
-////    public void setup() {
-////        objectMapper = new ObjectMapper();
-////        MockitoAnnotations.openMocks(this);
-////        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-////    }
-////
-////    @Test
-////    public void testGetUserById() throws Exception {
-////        int userId = 1;
-////        User user = new User("John Doe", "john@example.com", "password");
-////
-////        when(userService.getUserById(userId)).thenReturn(user);
-////
-////        mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}", userId))
-////                .andExpect(status().isOk())
-////                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-////                .andExpect(jsonPath("$.userId").value(userId))
-////                .andExpect(jsonPath("$.name").value("John Doe"))
-////                .andExpect(jsonPath("$.email").value("john@example.com"))
-////                .andExpect(jsonPath("$.password").value("password"))
-////                .andDo(print());
-////
-////        verify(userService, times(1)).getUserById(userId);
-////    }
-////
+package A.Lil.Baklava.A.Lil.Baklava;
+
+import A.Lil.Baklava.A.Lil.Baklava.model.request.LoginRequest;
+import A.Lil.Baklava.A.Lil.Baklava.repository.UserRepository;
+import A.Lil.Baklava.A.Lil.Baklava.security.MyUserDetails;
+import A.Lil.Baklava.A.Lil.Baklava.security.UserContext;
+import A.Lil.Baklava.A.Lil.Baklava.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
+
+@SpringBootTest
+@ActiveProfiles("test")
+public class UserServiceTest {
+
+    @MockBean
+    UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
+
+    @MockBean
+    LoginRequest loginRequest;
+
+    @MockBean
+    UserContext userContext;
+
+    @MockBean
+    MyUserDetails myUserDetails;
+
 //    @Test
-//    public void testCreateUser() throws Exception {
-//        User user = new User( "John Doe", "john@example.com", "password");
-//        ObjectMapper objectMapper = null;
-//        String userJson = objectMapper.writeValueAsString(user);
+//    @DisplayName("Password must be converted to jwt token before saving")
+//    public void passwordMustBeConvertedToJwtTokenBeforeSave() {
+//        User user = new User("username", "pam@gmail.com", "123456");
+//        when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
+//        User createUser = userService.createUser(user);
+//        Assertions.assertNotEquals(createUser.getPassword(), "123456");
+//        verify(userRepository, times(1)).save(Mockito.any(User.class));
 //
-//        when(userService.createUser(any(User.class))).thenReturn(user);
-//
-//        mockMvc.perform(MockMvcRequestBuilders.post("/users")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(userJson))
-//                .andExpect(status().isCreated())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.userId").value(1))
-//                .andExpect(jsonPath("$.name").value("John Doe"))
-//                .andExpect(jsonPath("$.email").value("john@example.com"))
-//                .andExpect(jsonPath("$.password").value("password"))
-//                .andDo(print());
-//
-//        verify(userService, times(1)).createUser(any(User.class));
 //    }
 //
-////    @Test
-////    public void testGetAllUsers() throws Exception {
-////        User user1 = new User( "John Doe", "john@example.com", "password");
-////        User user2 = new User("Jane Smith", "jane@example.com", "password");
-////        List<User> users = Arrays.asList(user1, user2);
-////
-////        when(userService.getAllUsers()).thenReturn(users);
-////
-////        mockMvc.perform(MockMvcRequestBuilders.get("/users"))
-////                .andExpect(status().isOk())
-////                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-////                .andExpect(jsonPath("$[0].userId").value(1))
-////                .andExpect(jsonPath("$[0].name").value("John Doe"))
-////                .andExpect(jsonPath("$[0].email").value("john@example.com"))
-////                .andExpect(jsonPath("$[0].password").value("password"))
-////                .andExpect(jsonPath("$[1].userId").value(2))
-////                .andExpect(jsonPath("$[1].name").value("Jane Smith"))
-////                .andExpect(jsonPath("$[1].email").value("jane@example.com"))
-////                .andExpect(jsonPath("$[1].password").value("password"))
-////                .andDo(print());
-////        verify(userService, times(1)).getAllUsers();
-////    }
-////
-////
-////
-//}
+//    @Test
+//    @DisplayName("login user unsuccessfully when user account is inactive")
+//    public void userAccountMustBeActiveToLogin() {
+//        User inActiveUser = new User("tim", "tim@hotmail.com", "tim123");
+//        inActiveUser.setActive(false);
+//        LoginRequest loginRequest = new LoginRequest("tim@hotmail.com", "tim123");
+//        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(inActiveUser));
+//
+//        Assertions.assertThrows(InformationNotFoundException.class, () -> userService.loginUser(loginRequest));
+//    }
+//
+//    @Test
+//    @DisplayName("Deactivate user account when user account is active")
+//    public void testDeactivateUserAccountSuccessfully() {
+//        User activeUser = new User("tim", "tim@hotmail.com", "tim123");
+//        activeUser.setActive(true);
+//        when(userContext.getCurrentLoggedInUser()).thenReturn(activeUser);
+//
+//        ResponseEntity<?> response = userService.setUserToInactive();
+//        Assertions.assertEquals(200, response.getStatusCodeValue());
+//        Assertions.assertFalse(activeUser.getActive());
+//    }
+//
+//    @Test
+//    @DisplayName("Deactivate user account throws an exception when user account is inactive")
+//    public void testDeactivateUserAccountUnsuccessfully() {
+//        User activeUser = new User("tim", "tim@hotmail.com", "tim123");
+//        activeUser.setActive(false);
+//        when(userContext.getCurrentLoggedInUser()).thenReturn(activeUser);
+//
+//        Assertions.assertThrows(InformationNotFoundException.class, () -> userService.setUserToInactive());
+//    }
+//
+//    @Test
+//    @DisplayName("check if user is not blank")
+//    public void updateUserNameNotBlank() {
+//        User currentLoggedUser = new User("tim", "tim@hotmail.com", "tim123");
+//        when(userContext.getCurrentLoggedInUser()).thenReturn(currentLoggedUser);
+//        User userObject = new User();
+//        userObject.setName("mark");
+//        when(userRepository.save(Mockito.any(User.class))).thenReturn(currentLoggedUser);
+//        User returnUser = userService.updateUsername(userObject);
+//
+//        Assertions.assertEquals("mark", returnUser.getName());
+//    }
+//
+//    @Test
+//    @DisplayName("check if user is a valid username")
+//    public void updateUserNameIsValid() {
+//        User currentLoggedUser = new User("tim", "tim@hotmail.com", "tim123");
+//        when(userContext.getCurrentLoggedInUser()).thenReturn(currentLoggedUser);
+//        User userObject = new User();
+//        userObject.setName("");
+//        when(userRepository.save(Mockito.any(User.class))).thenReturn(currentLoggedUser);
+//
+//        Assertions.assertThrows(InformationInvalidException.class, () -> userService.updateUsername(userObject));
+//    }
+//
+}

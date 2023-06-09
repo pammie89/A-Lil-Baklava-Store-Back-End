@@ -1,76 +1,241 @@
 package A.Lil.Baklava.A.Lil.Baklava;
 
 import A.Lil.Baklava.A.Lil.Baklava.controller.UserController;
+import A.Lil.Baklava.A.Lil.Baklava.exception.InformationInvalidException;
+import A.Lil.Baklava.A.Lil.Baklava.exception.InformationNotFoundException;
 import A.Lil.Baklava.A.Lil.Baklava.model.User;
+import A.Lil.Baklava.A.Lil.Baklava.model.request.LoginRequest;
+import A.Lil.Baklava.A.Lil.Baklava.model.response.LoginResponse;
+import A.Lil.Baklava.A.Lil.Baklava.security.*;
 import A.Lil.Baklava.A.Lil.Baklava.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
+@WebMvcTest(UserController.class)
+@Import(TestSecurityConfiguration.class)
 public class UserControllerTest {
+
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @Autowired
+    ObjectMapper mapper;
+
+    @MockBean
     private UserService userService;
-    private UserController userController;
+
+    @MockBean
+    private MyUserDetailsService myUserDetailsService;
+
+    @MockBean
+    private JWTUtils jwtUtils;
+
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-        userController = new UserController(userService);
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-    }
+    private final String endpoint = "/api/users/";
 
-    @Test
-    public void testGetUser_Success() throws Exception {
-        int userId = 1;
-        User user = new User();
-//        user.setUserId(userId);
-        user.setName("John");
-        user.setEmail("john@example.com");
-        user.setPassword("password");
+    User user_1 = new User("Pam", "pam@gmail.com", "123456");
 
-        when(userService.getUserById(userId)).thenReturn(user);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}", userId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.userId").value(userId))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("John"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("john@example.com"));
-    }
 
 
     @Test
-    public void testCreateUser() {
-        // Arrange
-        User user = new User();
-        user.setName("John Doe");
-        user.setEmail("john@example.com");
-        user.setPassword("password");
+    @DisplayName("return 200 and User Object")
+    public void createUserSuccessfully() throws Exception {
+        when(userService.createUser(Mockito.any(User.class))).thenReturn(user_1);
+        MockHttpServletRequestBuilder mockRequest = post(endpoint)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(user_1));
 
-        // Define the behavior of the mock userService
-        when(userService.createUser(user)).thenReturn(user);
-
-        // Act
-        User createdUser = userController.createUser(user);
-
-        // Assert
-        assertNotNull(createdUser);
-        assertEquals(user.getName(), createdUser.getName());
-        assertEquals(user.getEmail(), createdUser.getEmail());
-        assertEquals(user.getPassword(), createdUser.getPassword());
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name").value(user_1.getName()))
+                .andExpect(jsonPath("$.email").value(user_1.getEmail()))
+                .andDo(print());
     }
 
+    @Test
+    @DisplayName("request body should not be empty")
+    public void requestBodyShouldNotBeEmpty() throws Exception {
+        MockHttpServletRequestBuilder mockRequest = post(endpoint);
+        mockMvc.perform(mockRequest).andExpect(status().isBadRequest()).andDo(print());
+    }
 
+    @Test
+    @DisplayName("user name can not be blank")
+    public void userNameCanNotBeBlank() throws Exception {
+        when(userService.createUser(Mockito.any(User.class))).thenThrow(new InformationInvalidException("The username can not be empty or contain spaces"));
+        MockHttpServletRequestBuilder mockRequest = post(endpoint)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(new User("", "hello@email.com", "1,2,3")));
+
+        mockMvc.perform(mockRequest).andExpect(status().isBadRequest()).andDo(print());
+    }
+
+    @Test
+    @DisplayName("email can not be blank")
+    public void emailCanNotBeBlank() throws Exception {
+        when(userService.createUser(Mockito.any(User.class))).thenThrow(new InformationInvalidException("The email can not be empty or contain spaces"));
+        MockHttpServletRequestBuilder mockRequest = post(endpoint)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(new User("Pam", "", "1,2,3")));
+
+        mockMvc.perform(mockRequest).andExpect(status().isBadRequest()).andDo(print());
+    }
+
+    @Test
+    @DisplayName("password can not be blank")
+    public void passwordCanNotBeBlank() throws Exception {
+        when(userService.createUser(Mockito.any(User.class))).thenThrow(new InformationInvalidException("The password can not be empty or contain spaces"));
+        MockHttpServletRequestBuilder mockRequest = post(endpoint).
+                contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(new User("Pam", "pam@gmail.com", "")));
+
+        mockMvc.perform(mockRequest).andExpect(status().isBadRequest()).andDo(print());
+    }
+
+    @Test
+    @DisplayName("password must have at least 6 characters")
+    public void passwordMustHaveAtLeast6Characters() throws Exception {
+        when(userService.createUser(Mockito.any(User.class))).thenThrow(new InformationInvalidException("The password must contain 6 characters"));
+        MockHttpServletRequestBuilder mockRequest = post(endpoint)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(new User("Pam", "pam@gmail.com", "12345")));
+
+        mockMvc.perform(mockRequest).andExpect(status().isBadRequest()).andDo(print());
+    }
+
+    @Test
+    @DisplayName("when login successfully should return 200 and a token")
+    public void shouldLoginSuccessfully() throws Exception {
+        User loginRequest = new User("tim", "tim@hotmail.com", "tim123");
+        when(userService.loginUser(Mockito.any(LoginRequest.class))).thenReturn(new LoginResponse("token"));
+
+        MockHttpServletRequestBuilder mockRequest = post(endpoint + "login/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(loginRequest));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.message").value("token"))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("when user login unsuccessfully should return 400")
+    public void shouldLoginUnSuccessfully() throws Exception {
+        User loginRequest = new User("tim", "tim@hotmail.com", "tim123");
+        when(userService.loginUser(Mockito.any(LoginRequest.class))).thenThrow(new InformationInvalidException("User not valid"));
+
+        MockHttpServletRequestBuilder mockRequest = post(endpoint + "login/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(loginRequest));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("should login unsuccessfully when user account is inactive")
+    public void shouldLoginUnSuccessfullyWhenUserIsInactive() throws Exception {
+        User loginRequest = new User("tim", "tim@hotmail.com", "tim123");
+        when(userService.loginUser(Mockito.any(LoginRequest.class))).thenThrow(new InformationNotFoundException("The user account is inactive"));
+
+        MockHttpServletRequestBuilder mockRequest = post(endpoint + "login/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(loginRequest));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("when user account is active should return 200")
+    public void deactivateUserSuccessfully() throws Exception {
+        when(userService.setUserToInactive()).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+
+        MockHttpServletRequestBuilder mockRequest = put(endpoint + "deactivate/");
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("when user account is inactive should return 404")
+    public void deactivateUserUnSuccessfully() throws Exception {
+        when(userService.setUserToInactive()).thenThrow(new InformationNotFoundException("The user account is inactive"));
+
+        MockHttpServletRequestBuilder mockRequest = put(endpoint + "deactivate/");
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("when logged in user updates username with a blank")
+    public void updateUserNameNotBlank() throws Exception {
+        User loggedInUser = new User("", "tim@hotmail.com", "tim123");
+        when(userService.updateUsername(Mockito.any(User.class))).thenThrow(new InformationInvalidException("Username cannot be blank"));
+
+        MockHttpServletRequestBuilder mockRequest = put(endpoint + "profile/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(loggedInUser));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("when logged in user updates username with a valid name")
+    public void updateUserNameSuccess() throws Exception {
+        User loggedInUser = new User("tim2", "tim@hotmail.com", "tim123");
+        when(userService.updateUsername(Mockito.any(User.class))).thenReturn(loggedInUser);
+
+        MockHttpServletRequestBuilder mockRequest = put(endpoint + "profile/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(loggedInUser));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect((jsonPath("$", notNullValue())))
+                .andExpect((jsonPath("$.name")).value(loggedInUser.getName()))
+                .andDo(print());
+    }
 }

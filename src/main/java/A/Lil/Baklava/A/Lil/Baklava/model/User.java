@@ -1,65 +1,92 @@
 package A.Lil.Baklava.A.Lil.Baklava.model;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private Long id;
+
     @Column
     private String name;
+
     @Column(unique = true)
     private String email;
+
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+
+    @Column
+    private Boolean isActive = true;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 
     public User() {
     }
 
-
-    public User(String name, String email, String password) {
-
-        this.name = name;
+    public User(String username, String email, String password) {
+        this.name = username;
         this.email = email;
         this.password = password;
-    }
-
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getPassword() {
         return password;
     }
+
 
     public void setPassword(String password) {
         this.password = password;
     }
 
 
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+//    public void setUser(List<User> user) {
+//        this.user = order;
+//    }
+
+//    @JsonIgnore
+//    public List<Playlist> getPlaylists() {
+//        return playlists;
+//    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
