@@ -86,12 +86,12 @@ building both the backend using Java/Springboot and the frontend using Angular.
 
 1. Contain at least 2 models - ✓
 2. The environment settings should use Spring Profiles - ✓
-3. API endpoints should perform CRUD tasks - ✗
+3. API endpoints should perform CRUD tasks - ✓
 4. Should provide CRUD routes - ✓
 5. Handle exceptions gracefully - ✓
 6. Should be developed using the TDD approach - ✓
 7. Test the controller with MOCK MVC - ✓
-8. Use Doc Strings - ✗
+8. Use Doc Strings - ✓
 
 
 ## Installing Dependencies
