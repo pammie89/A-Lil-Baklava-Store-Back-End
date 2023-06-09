@@ -10,17 +10,29 @@ import org.springframework.stereotype.Component;
 public class OrderDataLoader implements CommandLineRunner {
 
     private final OrderRepository orderRepository;
-
+    /**
+     * Constructs an instance of OrderDataLoader with the given OrderRepository.
+     *
+     * @param orderRepository The OrderRepository to be used for data access.
+     */
     @Autowired
     public OrderDataLoader(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
+    /**
+     * Executes the data loading logic when the application starts.
+     *
+     * @param args The command line arguments.
+     * @throws Exception if an error occurs during data loading.
+     */
     @Override
     public void run(String... args) throws Exception {
         loadOrderData();
     }
-
+    /**
+     * Loads initial order data into the application if the order repository is empty.
+     */
     private void loadOrderData() {
         if (orderRepository.count() == 0) {
             Order order1 = new Order(1L, 1, 5);
