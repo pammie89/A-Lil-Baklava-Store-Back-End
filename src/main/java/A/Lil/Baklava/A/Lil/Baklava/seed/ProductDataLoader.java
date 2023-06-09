@@ -12,11 +12,20 @@ public class ProductDataLoader implements CommandLineRunner {
     @Autowired
     ProductRepository productRepository;
 
+    /**
+     * Executes the data loading logic when the application starts.
+     *
+     * @param args The command line arguments.
+     * @throws Exception if an error occurs during data loading.
+     */
     @Override
     public void run(String... args) throws Exception {
         loadProductData();
     }
 
+    /**
+     * Loads initial product data into the application if the product repository is empty.
+     */
     private void loadProductData() {
         if (productRepository.count() == 0) {
             Product product1 = new Product("A Lil Box", 25.00);
