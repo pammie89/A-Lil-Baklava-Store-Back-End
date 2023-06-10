@@ -3,45 +3,59 @@ package A.Lil.Baklava.A.Lil.Baklava.service;
 import A.Lil.Baklava.A.Lil.Baklava.model.User;
 import A.Lil.Baklava.A.Lil.Baklava.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public User registerUser(User user) {
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        return userRepository.save(user);
     }
 
-    public User createUser(User user) {
-        int userId = generateUserId();
-        user.setUserId(userId);
-        userRepository.save(user);
-        return user;
-    }
-
-    public User getUserById(int userId) {
-        return userRepository.findById(userId).orElse(null);
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // Helper method to generate a unique user ID
-    private int generateUserId() {
-        // Logic to generate a unique ID, such as using a counter or UUID
-        // For simplicity, let's assume a counter-based approach
-        List<User> allUsers = userRepository.findAll();
-        int maxId = allUsers.stream().mapToInt(User::getUserId).max().orElse(0);
-        return maxId + 1;
+    public Optional<User> updateUser(Long id, User updatedUser) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setUsername(updatedUser.getUsername());
+            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            user.setRole(updatedUser.getRole());
+            User savedUser = userRepository.save(user);
+            return Optional.of(savedUser);
+        } else {
+            return Optional.empty();
+        }
     }
 
+    public boolean deleteUser(Long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            userRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
